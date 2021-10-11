@@ -4,9 +4,9 @@
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
  * @version 1.0.0
  * @authorId 635250116688871425
- * @website https://github.com/respecting/NitroPerks
- * @source https://raw.githubusercontent.com/respecting/NitroPerks/main/NitroPerks.plugin.js
- * @updateUrl https://raw.githubusercontent.com/respecting/NitroPerks/main/NitroPerks.plugin.js
+ * @website https://github.com/pronoob742/FreeNitroPerks
+ * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
+ * @updateUrl https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
  */
 /*@cc_on
 @if (@_jscript)
@@ -41,8 +41,8 @@ module.exports = (() => {
             }],
             "version": "1.0.0",
             "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
-            "github": "https://github.com/respecting/NitroPerks",
-            "github_raw": "https://raw.githubusercontent.com/respecting/NitroPerks/main/NitroPerks.plugin.js"
+            "github": "https://github.com/pronoob742/FreeNitroPerks",
+            "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
         },
         "main": "FreeNitroPerks.plugin.js"
     };
