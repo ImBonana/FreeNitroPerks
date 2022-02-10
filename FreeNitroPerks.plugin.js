@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.0
+ * @version 1.0.1
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -33,17 +33,41 @@
 module.exports = (() => {
     const config = {
         "info": {
-            "name": "NitroPerks",
+            "name": "FreeNitroPerks",
             "authors": [{
                 "name": "Im_Banana",
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.0",
+            "version": "1.0.1",
             "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
         },
+        "changelog": [
+            // {
+            //     "title": "New Stuff",
+            //     "items": [
+            //         "Added more settings",
+            //         "Added changelog"
+            //     ]
+            // },
+            {
+                "title": "Bugs Squashed",
+                "type": "fixed",
+                "items": [
+                    "Fix The Emojis"
+                ]
+            },
+            // {"title": "Improvements", "type": "improved", "items": ["Improvements to the base plugin"]},
+            {
+                "title": "On-going",
+                "type": "progress",
+                "items": [
+                    "Sharescreen is not working right now but I'm going to fix that later"
+                ]
+            }
+        ],
         "main": "FreeNitroPerks.plugin.js"
     };
 
@@ -92,8 +116,6 @@ module.exports = (() => {
                     "emojiSize": "40",
                     "screenSharing": false,
                     "emojiBypass": true,
-                    "clientsidePfp": false,
-                    "pfpUrl": "",
                 };
                 settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
                 originalNitroStatus = 0;
@@ -107,61 +129,61 @@ module.exports = (() => {
                         new Settings.SettingGroup("Emojis").append(
                             new Settings.Switch("Nitro Emotes Bypass", "Enable or disable using the Nitro Emote bypass.", this.settings.emojiBypass, value => this.settings.emojiBypass = value),
                             new Settings.Slider("Size", "The size of the emoji in pixels. 40 is recommended.", 16, 64, this.settings.emojiSize, size=>this.settings.emojiSize = size, {markers:[16,20,32,40,64], stickToMarkers:true})
-                        ),
-                            new Settings.SettingGroup("Profile Picture").append(...[
-                                new Settings.Switch("Clientsided Profile Picture", "Enable or disable clientsided profile pictures.", this.settings.clientsidePfp, value => this.settings.clientsidePfp = value),
-                                new Settings.Textbox("URL", "The direct URL that has the profile picture you want.", this.settings.pfpUrl,
-                                    image => {
-                                        try {
-                                            new URL(image)
-                                        } catch {
-                                            return Toasts.error('This is an invalid URL!')
-                                        }
-                                        this.settings.pfpUrl = image
-                                    }
-                                )
-                            ])
+                        )
                     ])
                 }
                 
                 saveAndUpdate() {
                     PluginUtilities.saveSettings(this.getName(), this.settings)
-                    if (!this.settings.screenSharing) {
-                        switch (this.originalNitroStatus) {
-                            case 1:
-                                BdApi.injectCSS("screenShare", `#app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(1) > div > button:nth-child(4) {
-                                    display: none;
-                                  }`)
-                                this.screenShareFix = setInterval(()=>{
-                                    document.querySelector("#app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(1) > div > button:nth-child(3)").click()
-                                    clearInterval(this.screenShareFix)
-                                }, 100)
-                                break;
-                            default: //if user doesn't have nitro?
-                                BdApi.injectCSS("screenShare", `#app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(1) > div > button:nth-child(4) {
-                                    display: none;
-                                  }
-                                  #app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(1) > div > button:nth-child(3) {
-                                    display: none;
-                                  }
-                                  #app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(2) > div > button:nth-child(3) {
-                                    display: none;
-                                  }`)
-                                this.screenShareFix = setInterval(()=>{
-                                    document.querySelector("#app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(1) > div > button:nth-child(2)").click()
-                                    document.querySelector("#app-mount > div.layerContainer-yqaFcK > div.layer-2KE1M9 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3v3tfG.justifyStart-2NDFzi.alignStretch-DpGPf3.noWrap-3jynv6.modalContent-BM7Qeh > div:nth-child(2) > div > button:nth-child(2)").click()
-                                    clearInterval(this.screenShareFix)
-                                }, 100)
-                            break;
-                        }
+                    if (this.settings.screenSharing) {
+                        BdApi.injectCSS("screenShare", `#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(2) > div > button:nth-child(3) {
+                            display: none !important;
+                            }
+                            #app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(3) {
+                            display: none !important;
+                            }
+                            #app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(3) {
+                            display: none !important;
+                            }`)
+                        this.screenShareFix = setInterval(()=>{
+                            document.querySelector("#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(2)").click()
+                            document.querySelector("#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(2)").click()
+                            clearInterval(this.screenShareFix)
+                        }, 100)
                     }
 
-                    if (this.settings.screenSharing) BdApi.clearCSS("screenShare")
+                    if (!this.settings.screenSharing) BdApi.clearCSS("screenShare")
 
                     if (this.settings.emojiBypass) {
+                        clearInterval(this.fixEmojiMenu)
+                        this.fixEmojiMenu = setInterval(() => {
+                            let pre = document.querySelector(".premiumPromo-1eKAIB")
+                            if(pre != null) document.querySelector(".premiumPromo-1eKAIB").remove()
+
+                            document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
+                                elem.classList.remove("emojiItemDisabled-3VVnwp")
+                            })
+
+                            document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
+                                elem.onclick = function() { 
+                                    BDFDB.LibraryModules.DispatchUtils.ComponentDispatch.dispatchToLastSubscribed(
+                                        BDFDB.DiscordConstants.ComponentActions.INSERT_TEXT,
+                                        {
+                                            content: `:${elem.dataset.name}:`
+                                        }
+                                    )
+                                }
+                            })
+                        }, 100)
                         //fix emotes with bad method
                         Patcher.before(DiscordModules.MessageActions, "sendMessage", (_, [, msg]) => {
                             msg.validNonShortcutEmojis.forEach(emoji => {
+                                console.log(emoji)
+                                if (emoji.url.startsWith("/assets/")) return;
+                                msg.content = msg.content.replace(`<${emoji.animated ? "a" : ""}${emoji.allNamesString.replace(/~\d/g, "")}${emoji.id}>`, emoji.url + `&size=${this.settings.emojiSize} `)
+                            })
+                            msg.invalidEmojis.forEach(emoji => {
+                                console.log(emoji)
                                 if (emoji.url.startsWith("/assets/")) return;
                                 msg.content = msg.content.replace(`<${emoji.animated ? "a" : ""}${emoji.allNamesString.replace(/~\d/g, "")}${emoji.id}>`, emoji.url + `&size=${this.settings.emojiSize} `)
                             })
@@ -176,46 +198,32 @@ module.exports = (() => {
                         });
                     }
 
-                    if(!this.settings.emojiBypass) Patcher.unpatchAll(DiscordModules.MessageActions)
-
-                    if (this.settings.clientsidePfp && this.settings.pfpUrl) {
-                        this.clientsidePfp = setInterval(()=>{
-                            document.querySelectorAll(`[src="${DiscordAPI.currentUser.discordObject.avatarURL.replace(".png", ".webp")}"]`).forEach(avatar=>{
-                                avatar.src = this.settings.pfpUrl
-                            })
-                            document.querySelectorAll(`[src="${DiscordAPI.currentUser.discordObject.avatarURL}"]`).forEach(avatar=>{
-                                avatar.src = this.settings.pfpUrl
-                            })
-                            document.querySelectorAll(`.avatarContainer-28iYmV.avatar-3tNQiO.avatarSmall-1PJoGO`).forEach(avatar=>{
-                                if (!avatar.style.backgroundImage.includes(DiscordAPI.currentUser.discordObject.avatarURL)) return;
-                                avatar.style = `background-image: url("${this.settings.pfpUrl}");`
-                            })
-                        }, 100)
+                    if(!this.settings.emojiBypass) {
+                        Patcher.unpatchAll(DiscordModules.MessageActions)
+                        
+                        document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
+                            elem.onclick = function() { }
+                        })
+                        document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
+                            elem.onclick = function() { }
+                        })
                     }
-                    if (!this.settings.clientsidePfp) this.removeClientsidePfp()
                 }
-                removeClientsidePfp() {
-                    clearInterval(this.clientsidePfp)
-                    document.querySelectorAll(`[src="${this.settings.pfpUrl}"]`).forEach(avatar=>{
-                        avatar.src = DiscordAPI.currentUser.discordObject.avatarURL
-                    })
-                    document.querySelectorAll(`[src="${this.settings.pfpUrl}"]`).forEach(avatar=>{
-                        avatar.src = DiscordAPI.currentUser.discordObject.avatarURL
-                    })
-                    document.querySelectorAll(`.avatarContainer-28iYmV.avatar-3tNQiO.avatarSmall-1PJoGO`).forEach(avatar=>{
-                        if (!avatar.style.backgroundImage.includes(this.settings.pfpUrl)) return;
-                        avatar.style = `background-image: url("${DiscordAPI.currentUser.discordObject.avatarURL}");`
-                    })
-                }
+
                 onStart() {
-                    this.originalNitroStatus = DiscordAPI.currentUser.discordObject.premiumType;
                     this.saveAndUpdate()
-                    DiscordAPI.currentUser.discordObject.premiumType = 2
                 }
 
                 onStop() {
-                    DiscordAPI.currentUser.discordObject.premiumType = this.originalNitroStatus;
-                    this.removeClientsidePfp()
+                    clearInterval(this.screenShareFix)
+                    document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
+                        elem.onclick = function() { }
+                    })
+
+                    document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
+                        elem.onclick = function() { }
+                    })
+
                     Patcher.unpatchAll();
                 }
             };
