@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.1
+ * @version 1.0.2
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -39,7 +39,7 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.1",
+            "version": "1.0.2",
             "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
@@ -135,8 +135,9 @@ module.exports = (() => {
                 
                 saveAndUpdate() {
                     PluginUtilities.saveSettings(this.getName(), this.settings)
-                    if (this.settings.screenSharing) {
-                        BdApi.injectCSS("screenShare", `#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div.flex-1xMQg5.flex-1O1GKY.horizontal-1ae9ci.horizontal-2EEEnY.flex-1O1GKY.directionRow-3#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(2) > div > button:nth-child(3) {
+                    // if (this.settings.screenSharing) {
+                    if (false) {
+                        BdApi.injectCSS("screenShare", `#app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(3) {
                             display: none !important;
                             }
                             #app-mount > div.layerContainer-2v_Sit > div.layer-1Ixpg3 > div > div > form > div:nth-child(2) > div > div > div:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > div > button:nth-child(3) {
