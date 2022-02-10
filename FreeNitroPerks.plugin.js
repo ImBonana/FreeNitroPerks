@@ -211,6 +211,7 @@ module.exports = (() => {
                 }
 
                 onStart() {
+                    BDFDB.PatchUtils.forceAllUpdates(this);
                     this.saveAndUpdate()
                 }
 
@@ -224,6 +225,7 @@ module.exports = (() => {
                         elem.onclick = function() { }
                     })
 
+                    BDFDB.PatchUtils.forceAllUpdates(this);
                     Patcher.unpatchAll();
                 }
             };
