@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.2
+ * @version 1.0.3
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -39,7 +39,7 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.2",
+            "version": "1.0.3",
             "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
@@ -56,17 +56,17 @@ module.exports = (() => {
                 "title": "Bugs Squashed",
                 "type": "fixed",
                 "items": [
-                    "Fix The Emojis"
+                    "Fix The Emoji Update"
                 ]
             },
             // {"title": "Improvements", "type": "improved", "items": ["Improvements to the base plugin"]},
-            {
-                "title": "On-going",
-                "type": "progress",
-                "items": [
-                    "Sharescreen is not working right now but I'm going to fix that later"
-                ]
-            }
+            // {
+            //     "title": "On-going",
+            //     "type": "progress",
+            //     "items": [
+            //         "Sharescreen is not working right now but I'm going to fix that later"
+            //     ]
+            // }
         ],
         "main": "FreeNitroPerks.plugin.js"
     };
@@ -218,6 +218,7 @@ module.exports = (() => {
 
                 onStop() {
                     clearInterval(this.screenShareFix)
+                    clearInterval(this.fixEmojiMenu)
                     document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
                         elem.onclick = function() { }
                     })
