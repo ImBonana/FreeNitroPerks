@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.3
+ * @version 1.0.4
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -39,7 +39,7 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.3",
+            "version": "1.0.4",
             "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
@@ -115,12 +115,9 @@ module.exports = (() => {
                 defaultSettings = {
                     "emojiSize": "40",
                     "screenSharing": false,
-                    "emojiBypass": true,
+                    "emojiBypass":true,
                 };
                 settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
-                originalNitroStatus = 0;
-                clientsidePfp;
-                screenShareFix;
                 getSettingsPanel() {
                     return Settings.SettingPanel.build(_ => this.saveAndUpdate(), ...[
                         new Settings.SettingGroup("Features").append(...[
@@ -156,16 +153,15 @@ module.exports = (() => {
                     if (!this.settings.screenSharing) BdApi.clearCSS("screenShare")
 
                     if (this.settings.emojiBypass) {
+                        console.log("here1")
                         clearInterval(this.fixEmojiMenu)
                         this.fixEmojiMenu = setInterval(() => {
+                            console.log("here2")
                             let pre = document.querySelector(".premiumPromo-1eKAIB")
                             if(pre != null) document.querySelector(".premiumPromo-1eKAIB").remove()
 
                             document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
                                 elem.classList.remove("emojiItemDisabled-3VVnwp")
-                            })
-
-                            document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
                                 elem.onclick = function() { 
                                     BDFDB.LibraryModules.DispatchUtils.ComponentDispatch.dispatchToLastSubscribed(
                                         BDFDB.DiscordConstants.ComponentActions.INSERT_TEXT,
@@ -207,13 +203,16 @@ module.exports = (() => {
                         })
                         document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
                             elem.onclick = function() { }
+                            elem.classList.add("emojiItemDisabled-3VVnwp")
                         })
+
+                        clearInterval(this.fixEmojiMenu)
                     }
                 }
 
                 onStart() {
-                    BDFDB.PatchUtils.forceAllUpdates(this);
                     this.saveAndUpdate()
+                    BDFDB.PatchUtils.forceAllUpdates(this);
                 }
 
                 onStop() {
