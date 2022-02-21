@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.4
+ * @version 1.0.5
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -52,13 +52,13 @@ module.exports = (() => {
             //         "Added changelog"
             //     ]
             // },
-            {
-                "title": "Bugs Squashed",
-                "type": "fixed",
-                "items": [
-                    "Fix The Emoji Update"
-                ]
-            },
+            // {
+            //     "title": "Bugs Squashed",
+            //     "type": "fixed",
+            //     "items": [
+            //         "Fix The Emoji Update"
+            //     ]
+            // },
             // {"title": "Improvements", "type": "improved", "items": ["Improvements to the base plugin"]},
             // {
             //     "title": "On-going",
@@ -153,10 +153,8 @@ module.exports = (() => {
                     if (!this.settings.screenSharing) BdApi.clearCSS("screenShare")
 
                     if (this.settings.emojiBypass) {
-                        console.log("here1")
                         clearInterval(this.fixEmojiMenu)
                         this.fixEmojiMenu = setInterval(() => {
-                            console.log("here2")
                             let pre = document.querySelector(".premiumPromo-1eKAIB")
                             if(pre != null) document.querySelector(".premiumPromo-1eKAIB").remove()
 
