@@ -39,8 +39,8 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.4",
-            "description": "Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
+            "version": "1.0.5",
+            "description": "Unlock all screensharing modes (Not Working *temp*) , and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
         },
@@ -52,14 +52,20 @@ module.exports = (() => {
             //         "Added changelog"
             //     ]
             // },
-            // {
-            //     "title": "Bugs Squashed",
-            //     "type": "fixed",
-            //     "items": [
-            //         "Fix The Emoji Update"
-            //     ]
-            // },
-            // {"title": "Improvements", "type": "improved", "items": ["Improvements to the base plugin"]},
+            {
+                "title": "Bugs Fixes",
+                "type": "fixed",
+                "items": [
+                    "Fix The Emoji Menu"
+                ]
+            },
+            {
+                "title": "Improvements",
+                "type": "improved",
+                "items": [
+                    "Improve The Code"
+                ]
+            },
             // {
             //     "title": "On-going",
             //     "type": "progress",
@@ -111,6 +117,17 @@ module.exports = (() => {
                 Toasts,
                 PluginUtilities
             } = Api;
+
+            function setTextInTextBox(text) {
+                BdApi.findModuleByProps("ComponentDispatch").ComponentDispatch.dispatch(
+                    BdApi.findModuleByProps("ComponentActions").ComponentActions.INSERT_TEXT,
+                    {
+                        content: text,
+                        plainText: text
+                    }
+                )
+            }
+
             return class NitroPerks extends Plugin {
                 defaultSettings = {
                     "emojiSize": "40",
@@ -160,29 +177,28 @@ module.exports = (() => {
 
                             document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
                                 elem.classList.remove("emojiItemDisabled-3VVnwp")
-                                elem.onclick = function() { 
-                                    BDFDB.LibraryModules.DispatchUtils.ComponentDispatch.dispatchToLastSubscribed(
-                                        BDFDB.DiscordConstants.ComponentActions.INSERT_TEXT,
-                                        {
-                                            content: `:${elem.dataset.name}:`
-                                        }
-                                    )
+
+                                elem.onclick = function() {                          
+                                    setTextInTextBox(`:${elem.dataset.name}:`)
                                 }
                             })
                         }, 100)
-                        //fix emotes with bad method
+                        
+                        // send emoji
                         Patcher.before(DiscordModules.MessageActions, "sendMessage", (_, [, msg]) => {
                             msg.validNonShortcutEmojis.forEach(emoji => {
                                 console.log(emoji)
                                 if (emoji.url.startsWith("/assets/")) return;
                                 msg.content = msg.content.replace(`<${emoji.animated ? "a" : ""}${emoji.allNamesString.replace(/~\d/g, "")}${emoji.id}>`, emoji.url + `&size=${this.settings.emojiSize} `)
                             })
+
                             msg.invalidEmojis.forEach(emoji => {
                                 console.log(emoji)
                                 if (emoji.url.startsWith("/assets/")) return;
                                 msg.content = msg.content.replace(`<${emoji.animated ? "a" : ""}${emoji.allNamesString.replace(/~\d/g, "")}${emoji.id}>`, emoji.url + `&size=${this.settings.emojiSize} `)
                             })
                         });
+
                         //for editing message also
                         Patcher.before(DiscordModules.MessageActions, "editMessage", (_,obj) => {
                             let msg = obj[2].content
@@ -196,9 +212,6 @@ module.exports = (() => {
                     if(!this.settings.emojiBypass) {
                         Patcher.unpatchAll(DiscordModules.MessageActions)
                         
-                        document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
-                            elem.onclick = function() { }
-                        })
                         document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
                             elem.onclick = function() { }
                             elem.classList.add("emojiItemDisabled-3VVnwp")
@@ -216,13 +229,6 @@ module.exports = (() => {
                 onStop() {
                     clearInterval(this.screenShareFix)
                     clearInterval(this.fixEmojiMenu)
-                    document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv.emojiItemDisabled-3VVnwp").forEach(elem => {
-                        elem.onclick = function() { }
-                    })
-
-                    document.querySelectorAll(".emojiItem-277VFM.emojiItemMedium-2stgkv").forEach(elem => {
-                        elem.onclick = function() { }
-                    })
 
                     BDFDB.PatchUtils.forceAllUpdates(this);
                     Patcher.unpatchAll();
