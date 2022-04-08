@@ -2,7 +2,7 @@
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.5
+ * @version 1.0.6
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -39,7 +39,7 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.5",
+            "version": "1.0.6",
             "description": "Unlock all screensharing modes (Not Working *temp*) , and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
