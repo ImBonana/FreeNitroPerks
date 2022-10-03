@@ -1,8 +1,8 @@
-**
+/**
  * @name FreeNitroPerks
  * @author Im_Banana#6112
  * @description Unlock all screensharing modes, and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)
- * @version 1.0.7
+ * @version 1.0.8
  * @authorId 635250116688871425
  * @website https://github.com/pronoob742/FreeNitroPerks
  * @source https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js
@@ -39,18 +39,18 @@ module.exports = (() => {
                 "discord_id": "635250116688871425",
                 "github_username": "pronoob742"
             }],
-            "version": "1.0.7",
+            "version": "1.0.8",
             "description": "Unlock all screensharing modes (Not Working *temp*) , and use cross-server emotes & gif emotes, Discord wide! (You CANNOT upload 100MB files though. :/)",
             "github": "https://github.com/pronoob742/FreeNitroPerks",
             "github_raw": "https://raw.githubusercontent.com/pronoob742/FreeNitroPerks/main/FreeNitroPerks.plugin.js"
         },
         "changelog": [
-            {
-                "title": "New Stuff",
-                "items": [
-                    "Add Sticker bypass. Not Working With Animated Stickers"
-                ]
-            },
+            // {
+            //     "title": "New Stuff",
+            //     "items": [
+            //         "Add Sticker bypass. Not Working With Animated Stickers"
+            //     ]
+            // },
             // {
             //     "title": "Bugs Fixes",
             //     "type": "fixed",
@@ -65,13 +65,20 @@ module.exports = (() => {
             //         "Improve The Code"
             //     ]
             // },
-            // {
-            //     "title": "On-going",
-            //     "type": "progress",
-            //     "items": [
-            //         "Sharescreen is not working right now but I'm going to fix that later"
-            //     ]
-            // }
+            {
+                "title": "On-going",
+                "type": "progress",
+                "items": [
+                    "Animated Stickers Will Be In The Next Update!"
+                ]
+            },
+            {
+                "title": "Discord Latest Update",
+                "type": "fixed",
+                "items": [
+                    "Fixed The Plugin From The Discord Latest Update."
+                ]
+            },
         ],
         "main": "FreeNitroPerks.plugin.js"
     };
@@ -117,14 +124,12 @@ module.exports = (() => {
                 PluginUtilities
             } = Api;
 
-            function setTextInTextBox(text) {
-                BdApi.findModuleByProps("ComponentDispatch").ComponentDispatch.dispatch(
-                    BdApi.findModuleByProps("ComponentActions").ComponentActions.INSERT_TEXT,
-                    {
-                        content: text,
-                        plainText: text
-                    }
-                )
+            async function setTextInTextBox(text) {
+                const ComponentDispatch = BdApi.Webpack.getModule(m => m.dispatchToLastSubscribed && m.emitter.listeners("INSERT_TEXT").length) 
+
+                await ComponentDispatch.dispatchToLastSubscribed("INSERT_TEXT", {
+                    plainText: `${text}`
+                });
             }
 
             return class NitroPerks extends Plugin {
@@ -251,14 +256,12 @@ module.exports = (() => {
 
                 onStart() {
                     this.saveAndUpdate()
-                    BDFDB.PatchUtils.forceAllUpdates(this);
                 }
 
                 onStop() {
                     clearInterval(this.fixEmojiMenu)
                     clearInterval(this.fixStickerMenu)
 
-                    BDFDB.PatchUtils.forceAllUpdates(this);
                     Patcher.unpatchAll();
                 }
             };
